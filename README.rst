@@ -7,7 +7,7 @@ directional substitution matrix.
 DeMaSk predictions can be easily obtained for any protein sequence
 using the `web tool <https://demask.princeton.edu>`_.  This package
 can be downloaded for customized usage.  See the `full documentation
-<>`_ for more detailed instructions.
+<https://demask.readthedocs.io>`_ for more detailed instructions.
 
 Installation
 ============
@@ -64,13 +64,13 @@ variants of the query sequence::
 
 The output looks like this::
 
-  pos	WT	var	score
-  1	M	A	-0.2946
-  1	M	C	-0.3242
-  1	M	D	-0.4635
-  1	M	E	-0.4203
-  1	M	F	-0.2907
-  1	M	G	-0.4254
+  pos   WT      var     score   entropy log2f_var       matrix
+  1     M       A       -0.3019 1.0666  -21.9207        -0.2641
+  1     M       C       -0.3074 1.0666  -21.9207        -0.2713
+  1     M       D       -0.4134 1.0666  -21.9207        -0.4100
+  1     M       E       -0.4036 1.0666  -21.9207        -0.3972
+  1     M       F       -0.2183 1.0666  -4.5455         -0.2707
+  1     M       G       -0.3828 1.0666  -21.9207        -0.3700
   ...
 
 Corresponding functions can be run in Python code by importing
