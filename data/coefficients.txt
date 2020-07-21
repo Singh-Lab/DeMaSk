@@ -1,0 +1,4 @@
+intercept	-0.086486
+entropy	0.092014
+log2f_var	0.005103
+matrix	0.763834
