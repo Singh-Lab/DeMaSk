@@ -83,6 +83,9 @@ def extract_DMS_WT(datadir: str, output: str):
     assembled, and any missing positions will be represented as 'X' in
     the sequence.  Sequences will be written to a fasta file.
 
+    This method is not used by DeMaSk, but is provided for convenience if the WT sequence for
+    a DMS dataset is missing.
+
     Args:
         datadir: Name of the directory containing (only) DMS data
           files, one per protein.  If a file name is supplied, only
@@ -195,11 +198,20 @@ def load_dataset(fname: str, cols: list = ["pos", "WT", "var", "score"]) -> list
     return dms
 
 
-def index(x):
+def index(x: np.ndarray) -> np.ndarray:
     """Get array of indices for True elements in 1D array."""
     assert x.ndim == 1
     return np.where(x)[0]
 
 
-def entropies(profile):
+def entropies(profile: np.ndarray) -> list:
+    """Calculate Shannon entropy (log base 2) for each position of a sequence profile.
+
+    Args:
+        profile: A 2D array of AA proportions as returned by ``get_aligned_profile()``.
+
+    Returns:
+        A list of entropy values corresponding to the rows of ``profile``.
+
+    """
     return [-sum(p[np.nonzero(p)] * np.log2(p[np.nonzero(p)])) for p in profile]

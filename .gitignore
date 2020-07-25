@@ -1,5 +1,6 @@
 .DS_Store
 __pycache__
+*.pyc
 data/sequences/*.blast.json
 data/alignments/*
 demask/old

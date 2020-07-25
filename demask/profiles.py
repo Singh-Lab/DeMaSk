@@ -3,8 +3,7 @@
 """
 profiles.py
 ===========
-
-Functions for computing sequence profiles.
+Functions for computing sequence profiles from homologs, i.e. proportions of each amino acid at each position.
 
 """
 

@@ -3,7 +3,6 @@
 """
 matrix.py
 =========
-
 Code for computing a substitution matrix from DMS data.  The matrix can
 be used for variant impact prediction in place of the provided matrix.
 
@@ -24,9 +23,9 @@ def get_subs_matrix(data: list) -> dict:
     represents expected substitution impact.
 
     Args:
-        data: A list of lists, each containing the residue position,
+        data: The output of ``load_dataset()``: A list of lists, each containing the residue position,
           WT residue, variant residue, and score for a DMS
-          measurement.
+          measurement. Position information is not used.
 
     Returns:
         A dictionary in which keys are (AA1, AA2) tuples.
@@ -49,7 +48,7 @@ def write_matrix(matrix: dict, fname: str):
     """Write a substitution matrix to file.
 
     Args:
-        matrix: A dictionary in which keys are (AA1, AA2) tuples.
+        matrix: A dictionary in which keys are (AA1, AA2) tuples, as provided by ``get_subs_matrix()``.
         fname: The file name to write to.
 
     """
@@ -77,7 +76,7 @@ def prepare_matrix(
     containing residue position, WT residue, variant residue, and
     score must be present in any order, and other columns will be
     ignored.  Entries for which the WT and variant residues are not
-    among the 20 canonical amino acids or are the same are ignored.
+    among the 20 canonical amino acids, or are the same, are ignored.
 
     Args:
         datadir: Name of directory containing (only) DMS data files,
@@ -133,8 +132,7 @@ def parse_args():
         help=(
             "An optional comma-separated list of column names to read in place of "
             "'pos', 'WT', 'var', and 'score', respectively.  For example, "
-            "'Position,wt,mutant,Fitness'.  "
-            "Must apply to all files provided."
+            "'Position,wt,mutant,Fitness'.  Must apply to all files provided."
             ),
     )
     dirname = os.path.dirname(__file__)
@@ -145,7 +143,7 @@ def parse_args():
         is_config_file=True,
         metavar="FILE",
         default=config,
-        help=("Configuration file.  Defaults to 'config.ini' in the demask directory."),
+        help=("Configuration file.  Defaults to 'config.ini' in the DeMaSk directory."),
     )
     return p.parse_known_args()[0]
 

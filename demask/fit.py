@@ -3,9 +3,7 @@
 """
 fit.py
 ======
-
-Functions for computing entropy from aligned sequence profiles, then
-fitting a linear model to relate entropy and a substitution matrix to
+Functions for fitting a linear model to relate entropy, variant frequency, and a substitution matrix to
 DMS scores.
 
 """
@@ -18,7 +16,23 @@ from .utils import read_fasta, read_matrix, get_filenames, load_dataset, seq_mat
 from .profiles import get_weights, get_aligned_profile
 
 
-def coefficients(dms, entropy, log_profile, matrix):
+def coefficients(dms: dict, entropy: dict, log_profile: dict, matrix: dict) -> dict:
+    """Compute coefficients for the DeMaSk linear model.
+
+    Args:
+        dms: A dictionary in which keys are dataset names and values are DMS data as returned
+          by ``load_dataset()``.
+        entropy: A dictionary in which keys are dataset names and values are iterables with
+          entropy for each protein position.
+        log_profile: A dictionary in which keys are dataset names and values are
+          the sequence profile 2D arrays returned by ``get_aligned_profile()``.
+        matrix: A dictionary in which keys are (AA1, AA2) tuples.
+
+    Returns:
+        A dictionary with keys "intercept", "entropy", "log2f_var", and "matrix", and corresponding
+        coefficients as values.
+
+    """
     features = []
     scores = []
     for dataset in dms:
@@ -74,8 +88,6 @@ def fit_model(
           place of 'pos', 'WT', 'var', and 'score', respectively.
           Must apply to all files provided.
         nseqs: Maximum number of sequences in the alignment to use.
-          Sequence weights can take a long time to compute for huge
-          sequence counts.
         weight_threshold: Sequence identity threshold used for
           sequence weighting, e.g. 0.8.  Sequences are weighted by the inverse
           of the number of sequences within this percent identity.  If None
@@ -171,8 +183,7 @@ def parse_args():
         help=(
             "An optional comma-separated list of DMS data column names to read in place of "
             "'pos', 'WT', 'var', and 'score', respectively.  For example, "
-            "'Position,wt,mutant,Fitness'.  "
-            "Must apply to all files provided."
+            "'Position,wt,mutant,Fitness'.  Must apply to all files provided."
             ),
     )
     config = os.path.join(dirname, "..", "config.ini")

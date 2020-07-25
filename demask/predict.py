@@ -3,7 +3,7 @@
 """
 predict.py
 ==========
-Code for generating variant fitness predictions for a query sequence.
+Functions for generating variant fitness predictions for a query sequence.
 
 """
 
@@ -22,9 +22,10 @@ def demask_score(WT: str, var: str, entropy: float, logf_var: float, matrix: dic
         WT: The wild-type amino acid.
         var: The variant amino acid.
         entropy: The Shannon entropy for `WT`'s position in the homolog profile.
+        logf_var: The log2-transformed variant AA proportion.
         matrix: A dictionary in which keys are (AA1, AA2) tuples.
         coefs: A dictionary of coefficients with keys "intercept",
-          "entropy", and "identity".
+          "entropy", "log2f_var", and "matrix".
 
     Returns:
         The variant's predicted delta fitness.
@@ -38,6 +39,16 @@ def demask_score(WT: str, var: str, entropy: float, logf_var: float, matrix: dic
 
 
 def read_coefficients(fname: str) -> dict:
+    """Read DeMaSk model coefficients from file.
+
+    Args:
+        fname: File name.
+
+    Returns:
+        A dictionary with keys "intercept", "entropy", "log2f_var", and "matrix", and corresponding
+        coefficients as values.
+    
+    """
     with open(fname, "r") as f:
         lines = f.read().splitlines()
         lines = [line.split("\t") for line in lines]
@@ -52,13 +63,15 @@ def compute_scores(wt: str, entropy: list, log_profile: np.ndarray, matrix: dict
           of characters.
         entropy: A list the length of the query sequence containing
           per-position entropy from the homolog sequence profile.
+        log_profile: A sequence profile 2D array as returned by ``get_aligned_profile()``, but
+          subsequently log2-transformed.
         matrix: A dictionary in which keys are (AA1, AA2) tuples.
-        coefs: A dictionary with keys "intercept", "entropy", and
-          "identity", and corresponding coefficients as values.
+        coefs: A dictionary with keys "intercept", "entropy", "log2f_var", and
+          "matrix", and corresponding coefficients as values.
 
     Returns:
         A list of tuples, each containing the position, WT AA, variant
-        AA, and score for each prediction.
+        AA, score, and the three feature values for each prediction.
 
     """
     wt = np.array(list(wt))
@@ -69,7 +82,6 @@ def compute_scores(wt: str, entropy: list, log_profile: np.ndarray, matrix: dict
 
     # Compute scores for all substitutions at all positions.
     variants = [(p, var) for p in range(len(wt)) for var in AAs if wt[p] != var]
-    # scores = [demask_score(wt[v[0]], v[1], entropy[v[0]], matrix, coefs) for v in variants]
     predictions = []
     for i in range(len(variants)):
         p, v = variants[i]
@@ -94,12 +106,10 @@ def run_demask(
           sequence.
         matrix: Name of the file containing the directional
           substitution matrix.
-        coefs: Name of the file containing the intercept, entropy, and
-          identity coefficients, with one name and value, separated by
+        coefs: Name of the file containing the intercept, entropy, log2f_var, and
+          matrix coefficients, with one name and value, separated by
           a tab, per line.
         nseqs: Maximum number of sequences in the alignment to use.
-          Sequence weights can take a long time to compute for huge
-          sequence counts.
         weight_threshold: Sequence identity threshold used for
           sequence weighting, e.g. 0.8.  Sequences are weighted by the inverse
           of the number of sequences within this percent identity.  If None
@@ -107,7 +117,7 @@ def run_demask(
 
     Returns:
         A list of tuples, each containing the position, WT AA, variant
-        AA, and score for each prediction.
+        AA, score, and the three feature values for each prediction.
 
     """
     seqs = read_fasta(infile, as_dict=False)
@@ -162,7 +172,7 @@ def parse_args():
         default=matrix,
         help=(
             "File containing the directional substitution matrix.  "
-            "Defaults to the file at 'demask/data/matrix.txt'."
+            "Defaults to the file at 'DeMaSk/data/matrix.txt'."
         ),
     )
     coefficients = os.path.join(dirname, "..", "data", "coefficients.txt")
@@ -171,8 +181,8 @@ def parse_args():
         metavar="FILE",
         default=coefficients,
         help=(
-            "File containing the intercept, entropy, and identity coefficients.  "
-            "Defaults to the file at 'demask/data/coefficients.txt'."
+            "File containing the intercept, entropy, log2f_var, and matrix coefficients.  "
+            "Defaults to the file at 'DeMaSk/data/coefficients.txt'."
         ),
     )
     p.add(

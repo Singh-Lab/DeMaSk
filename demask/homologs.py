@@ -38,7 +38,7 @@ def run_blastp(
         db: Path of the BLAST database in which supporting sequences
           will be searched.  Must be formatted using the makeblastdb
           program.
-        nseqs: Number of top hits to include per query sequence.
+        nseqs: Maximum top hits to include per query sequence.
         outfile: Name of results file.
         threads: Number of threads (CPUs) to use.  Defaults to 1.
 
@@ -61,7 +61,7 @@ def run_blastp(
     assert blrun.returncode == 0
 
 
-def process_query(query: dict, bitscore_cutoff: float = None):
+def process_query(query: dict, bitscore_cutoff: float = None) -> list:
     """Extract alignment of hits for one query from BLAST output.
 
     Args:
@@ -109,6 +109,8 @@ def get_aligned_AAs(infile: str, bitscore_cutoff: float = None) -> dict:
     Args:
         infile: Name of blastp output file in json format (made using
           blastp argument '-outfmt 15').
+        bitscore_cutoff: Bitscore (bit_score / query_len) threshold
+          for blastp search.  If None (default), no threshold.
 
     Returns:
         A dictionary in which the keys are the query sequence names
@@ -132,8 +134,16 @@ def get_aligned_AAs(infile: str, bitscore_cutoff: float = None) -> dict:
 
 
 def passes_filters(homolog: str, query: str) -> bool:
-    """
-    Check whether a homolog has >= 20% identity with query and whose alignment is < 10% gaps.
+    """Check whether a homolog has >= 20% identity with query and whether the alignment is < 10% gaps.
+
+    Args:
+        homolog: The aligned homolog sequence. It should be the same length as the query sequence,
+          including '.' for end gaps and '-' for internal gaps.
+        query: The query sequence.
+
+    Returns:
+        True if both conditions are met, otherwise false.
+
     """
     homolog = np.array(list(homolog))
     query = np.array(list(query))

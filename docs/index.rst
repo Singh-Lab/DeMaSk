@@ -50,72 +50,76 @@ variants of the query sequence::
 Full options for finding homologs:
 
 .. code-block:: none
- 
- usage: homologs.py [-h] -s SEQFILE [-c FILE] --blastp BLASTP --db PATH
-                    [-t THREADS] [-e EVALUE_CUTOFF] [-b BITSCORE_CUTOFF]
-                    [-n NSEQS] (-o OUTFILE | -d OUTDIR)
- 
-  -h, --help            show this help message and exit
-  -s SEQFILE, --seqfile SEQFILE
-                        Name of a fasta file with one or more query sequences.
-  -c FILE, --config FILE
-                        Configuration file (e.g. the same configuration file
-                        used for running DeMaSk). Defaults to 'config.ini' in
-                        the demask directory.
-  --blastp BLASTP       The full path of your blastp executable.
-  --db PATH             Path of the BLAST database in which supporting
-                        sequences will be searched. Must be formatted using
-                        the makeblastdb program.
-  -t THREADS, --threads THREADS
-                        Number of threads (CPUs) blastp will use. Defaults to
-                        1.
-  -e EVALUE_CUTOFF, --evalue_cutoff EVALUE_CUTOFF
-                        E-value threshold for blastp hits.
-  -b BITSCORE_CUTOFF, --bitscore_cutoff BITSCORE_CUTOFF
-                        Bits per query residue threshold for blastp hits.
-  -n NSEQS, --nseqs NSEQS
-                        Maximum number of top hits to include per query
-                        sequence. Defaults to 300.
-  -o OUTFILE, --outfile OUTFILE
-                        Name of output file (only used for single-query runs).
-  -d OUTDIR, --outdir OUTDIR
-                        Name of directory to write output files in a2m (FASTA)
-                        format. The sequence titles (after the '>' and before
-                        any whitespace) will be used for file names.
- 
- For each query sequence, an output file in a2m (FASTA) format will be produced
- containing the query sequence and the most similar homologs up to a specified
- number (default 300).
+
+   usage: homologs.py [-h] -s SEQFILE [-c FILE] --blastp BLASTP --db PATH
+                     [-t THREADS] [-e EVALUE_CUTOFF] [-b BITSCORE_CUTOFF]
+                     [-n NSEQS] (-o OUTFILE | -d OUTDIR)
+
+   -h, --help            show this help message and exit
+   -s SEQFILE, --seqfile SEQFILE
+                           Name of a fasta file with one or more query sequences.
+   -c FILE, --config FILE
+                           Configuration file (e.g. the same configuration file
+                           used for running DeMaSk). Defaults to 'config.ini' in
+                           the demask directory.
+   --blastp BLASTP       The full path of your blastp executable.
+   --db PATH             Path of the BLAST database in which supporting
+                           sequences will be searched. Must be formatted using
+                           the makeblastdb program.
+   -t THREADS, --threads THREADS
+                           Number of threads (CPUs) blastp will use. Defaults to
+                           1.
+   -e EVALUE_CUTOFF, --evalue_cutoff EVALUE_CUTOFF
+                           E-value threshold for blastp hits. Defaults to 1e-5.
+   -b BITSCORE_CUTOFF, --bitscore_cutoff BITSCORE_CUTOFF
+                           Bits per query residue threshold for blastp hits.
+                           Default is no threshold
+   -n NSEQS, --nseqs NSEQS
+                           Maximum number of top hits to include per query
+                           sequence. Defaults to 500.
+   -o OUTFILE, --outfile OUTFILE
+                           Name of output file (only used for single-query runs).
+   -d OUTDIR, --outdir OUTDIR
+                           Name of directory to write output files in a2m (FASTA)
+                           format. The sequence titles (after the '>' and before
+                           any whitespace) will be used for file names.
+
+   For each query sequence, an output file in a2m (FASTA) format will be produced
+   containing the query sequence and the most similar homologs up to a specified
+   number (default 500).
 
 Full options for getting DeMaSk predictions:
 
 .. code-block:: none
 
-  usage: predict.py [-h] -i INFILE [-o OUTFILE] [-c FILE] [-m FILE]
-                  [--coefs FILE] [-n NSEQS] [-w WEIGHT_THRESHOLD]
- 
-  -h, --help            show this help message and exit
-  -i INFILE, --infile INFILE
-                        Name of the file containing a sequence alignment in
-                        A2M (FASTA) format, with the query protein as the
-                        first sequence.
-  -o OUTFILE, --outfile OUTFILE
-                        Name of new file to write scores to.
-  -c FILE, --config FILE
-                        Configuration file. Defaults to 'config.ini' in the
-                        demask directory.
-  -m FILE, --matrix FILE
-                        File containing the directional substitution matrix.
-                        Defaults to the file at 'demask/data/matrix.txt'.
-  --coefs FILE          File containing the intercept, entropy, and identity
-                        coefficients. Defaults to the file at
-                        'demask/data/coefficients.txt'.
-  -n NSEQS, --nseqs NSEQS
-                        Maximum number of supporting sequences per query
-                        sequence. Defaults to 300.
-  -w WEIGHT_THRESHOLD, --weight_threshold WEIGHT_THRESHOLD
-                        Sequence identity threshold used for sequence
-                        weighting.
+   usage: predict.py [-h] -i INFILE [-o OUTFILE] [-c FILE] [-m FILE]
+                     [--coefs FILE] [-n NSEQS] [-w WEIGHT_THRESHOLD]
+
+   -h, --help            show this help message and exit
+   -i INFILE, --infile INFILE
+                           Name of the file containing a sequence alignment in
+                           A2M (FASTA) format, with the query protein as the
+                           first sequence.
+   -o OUTFILE, --outfile OUTFILE
+                           Name of new file to write scores to.
+   -c FILE, --config FILE
+                           Configuration file. Defaults to 'config.ini' in the
+                           demask directory.
+   -m FILE, --matrix FILE
+                           File containing the directional substitution matrix.
+                           Defaults to the file at 'DeMaSk/data/matrix.txt'.
+   --coefs FILE          File containing the intercept, entropy, log2f_var, and
+                           matrix coefficients. Defaults to the file at
+                           'DeMaSk/data/coefficients.txt'.
+   -n NSEQS, --nseqs NSEQS
+                           Maximum number of supporting sequences per query
+                           sequence. Defaults to 500.
+   -w WEIGHT_THRESHOLD, --weight_threshold WEIGHT_THRESHOLD
+                           Sequence identity threshold used for sequence
+                           weighting, e.g. 0.8. Sequences are weighted by the
+                           inverse of the number of sequences within this percent
+                           identity. If None (default), sequence weighting is not
+                           used.
 
 Running in Python
 ^^^^^^^^^^^^^^^^^
@@ -148,70 +152,82 @@ Full options for computing a matrix:
 
 .. code-block:: none
 
- usage: matrix.py [-h] -d DATADIR -o OUTFILE [--columns COLUMNS] [-c FILE]
+   usage: matrix.py [-h] -d DATADIR -o OUTFILE [--columns COLUMNS] [-c FILE]
 
-  -h, --help            show this help message and exit
-  -d DATADIR, --datadir DATADIR
-                        Name of directory containing (only) DMS data files,
-                        one per protein. If a file name is supplied, only that
-                        file will be used.
-  -o OUTFILE, --outfile OUTFILE
-                        Name of file to write matrix to.
-  --columns COLUMNS     An optional comma-separated list of column names to
-                        read in place of 'pos', 'WT', 'var', and 'score',
-                        respectively. For example,
-                        'Position,wt,mutant,Fitness'. Must apply to all files
-                        provided.
-  -c FILE, --config FILE
-                        Configuration file. Defaults to 'config.ini' in the
-                        demask directory.
+   -h, --help            show this help message and exit
+   -d DATADIR, --datadir DATADIR
+                           Name of directory containing (only) DMS data files,
+                           one per protein. If a file name is supplied, only that
+                           file will be used.
+   -o OUTFILE, --outfile OUTFILE
+                           Name of file to write matrix to.
+   --columns COLUMNS     An optional comma-separated list of column names to
+                           read in place of 'pos', 'WT', 'var', and 'score',
+                           respectively. For example,
+                           'Position,wt,mutant,Fitness'. Must apply to all files
+                           provided.
+   -c FILE, --config FILE
+                           Configuration file. Defaults to 'config.ini' in the
+                           DeMaSk directory.
 
- Loads a collection of DMS datasets and averages scores by WT + variant
- identity. Data should already be normalized as desired. For the default DeMaSk
- matrix, variant scores were rank-normalized per protein, and then the wild-
- type fitness levels subtracted, so that scores represent delta fitness.
- Dataset files must be tab-delimited with column names. Columns containing
- residue position, WT residue, variant residue, and score must be present in
- any order, and other columns will be ignored. Entries for which the WT and
- variant residues are not among the 20 canonical amino acids or are the same
- are ignored.
+   Loads a collection of DMS datasets and averages scores by WT + variant
+   identity. Data should already be normalized as desired. For the default DeMaSk
+   matrix, variant scores were rank-normalized per protein, and then the wild-
+   type fitness levels subtracted, so that scores represent delta fitness.
+   Dataset files must be tab-delimited with column names. Columns containing
+   residue position, WT residue, variant residue, and score must be present in
+   any order, and other columns will be ignored. Entries for which the WT and
+   variant residues are not among the 20 canonical amino acids or are the same
+   are ignored.
 
 Full options for calculating coefficients:
 
 .. code-block:: none
 
- usage: fit.py [-h] -d DATADIR -a ALNDIR [-m FILE] -o OUTFILE [-c FILE]
-               [-n NSEQS] [-w WEIGHT_THRESHOLD]
+   usage: fit.py [-h] -d DATADIR -a ALNDIR [-m FILE] -o OUTFILE
+               [--columns COLUMNS] [-c FILE] [-n NSEQS] [-w WEIGHT_THRESHOLD]
 
-  -h, --help            show this help message and exit
-  -d DATADIR, --datadir DATADIR
-                        Name of directory containing (only) DMS data files,
-                        one per protein.
-  -a ALNDIR, --alndir ALNDIR
-                        Name of the directory containing alignment files,
-                        eachof which must be named as the basename of a DMS
-                        data filefollowed by the '.a2m' extension.
-  -m FILE, --matrix FILE
-                        File containing the directional substitution matrix.
-                        Defaults to the file at 'demask/matrix/matrix.txt'.
-  -o OUTFILE, --outfile OUTFILE
-                        Name of the file in which to save the coefficients.
-  -c FILE, --config FILE
-                        Configuration file. Defaults to 'config.ini' in the
-                        demask directory.
-  -n NSEQS, --nseqs NSEQS
-                        Maximum number of supporting sequences per query
-                        sequence. Defaults to 300.
-  -w WEIGHT_THRESHOLD, --weight_threshold WEIGHT_THRESHOLD
-                        Sequence identity threshold used for sequence
-                        weighting.
+   -h, --help            show this help message and exit
+   -d DATADIR, --datadir DATADIR
+                           Name of directory containing (only) DMS data files,
+                           one per protein.
+   -a ALNDIR, --alndir ALNDIR
+                           Name of the directory containing alignment files,
+                           eachof which must be named as the basename of a DMS
+                           data filefollowed by the '.a2m' extension.
+   -m FILE, --matrix FILE
+                           File containing the directional substitution matrix.
+                           Defaults to the file at 'demask/matrix/matrix.txt'.
+   -o OUTFILE, --outfile OUTFILE
+                           Name of the file in which to save the coefficients.
+   --columns COLUMNS     An optional comma-separated list of DMS data column
+                           names to read in place of 'pos', 'WT', 'var', and
+                           'score', respectively. For example,
+                           'Position,wt,mutant,Fitness'. Must apply to all files
+                           provided.
+   -c FILE, --config FILE
+                           Configuration file. Defaults to 'config.ini' in the
+                           demask directory.
+   -n NSEQS, --nseqs NSEQS
+                           Maximum number of supporting sequences per query
+                           sequence. Defaults to 500.
+   -w WEIGHT_THRESHOLD, --weight_threshold WEIGHT_THRESHOLD
+                           Sequence identity threshold used for sequence
+                           weighting, e.g. 0.8. Sequences are weighted by the
+                           inverse of the number of sequences within this percent
+                           identity. If None (default), sequence weighting is not
+                           used.
 
- For a set of DMS datasets, load the DMS scores, aligned homologs, and pre-
- computed substitution matrix, and fit a linear model, saving the coefficients
- to a file for later prediction on new proteins. DMS scores should already be
- normalized as desired. For the default DeMaSk matrix, variant scores were
- rank-normalized per protein, and then the wild-type fitness levels subtracted,
- so that scores represent delta fitness.
+   For a set of DMS datasets, load the DMS scores, aligned homologs, and pre-
+   computed substitution matrix, and fit a linear model, saving the coefficients
+   to a file for later prediction on new proteins. Dataset files must be tab-
+   delimited with column names. Columns containing residue position, WT residue,
+   variant residue, and score must be present in any order, and other columns
+   will be ignored. Entries for which the WT and variant residues are not among
+   the 20 canonical amino acids or are the same are ignored. DMS scores should
+   already be normalized as desired. For the default DeMaSk matrix, variant
+   scores were rank-normalized per protein, and then the wild-type fitness levels
+   subtracted, so that scores represent delta fitness.
 
 Running in Python
 ^^^^^^^^^^^^^^^^^
