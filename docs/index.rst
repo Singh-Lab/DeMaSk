@@ -126,9 +126,9 @@ Running in Python
 
 Corresponding functions can be run in Python code:
 
-.. autofunction:: demask.homologs.find_homologs
+.. autofunction:: demask.find_homologs
 
-.. autofunction:: demask.predict.run_demask
+.. autofunction:: demask.run_demask
 
 User-generated matrix and coefficients
 --------------------------------------
@@ -234,9 +234,9 @@ Running in Python
 
 Corresponding functions can be run in Python code:
 
-.. autofunction:: demask.matrix.prepare_matrix
+.. autofunction:: demask.prepare_matrix
 
-.. autofunction:: demask.fit.fit_model
+.. autofunction:: demask.fit_model
 
 Full documentation
 ==================

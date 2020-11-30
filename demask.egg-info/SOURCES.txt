@@ -1,6 +1,7 @@
 README.rst
 setup.py
 demask/__init__.py
+demask/fit.py
 demask/homologs.py
 demask/matrix.py
 demask/predict.py
