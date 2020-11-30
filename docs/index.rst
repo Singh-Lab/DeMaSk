@@ -4,10 +4,14 @@ User guide
 Installation
 ------------
 
-To install, clone the repository or `download and unzip
+Install from PyPI with pip (or pip3 if pip = pip2)::
+
+  pip install demask
+
+To install from GitHub, clone the repository or `download and unzip
 <https://github.com/Singh-Lab/DeMaSk/archive/master.zip>`_.  To get
 Python dependencies and be able to run or import the modules from any
-directory, install with pip (or pip3 if pip = pip2)::
+directory, install with pip::
 
   pip install -e DeMaSk/
 
