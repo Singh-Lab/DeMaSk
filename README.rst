@@ -12,11 +12,7 @@ can be downloaded for customized usage.  See the `full documentation
 Installation
 ============
 
-Install from PyPI with pip::
-
-  pip install demask
-
-To install from GitHub, clone the repository or `download and unzip
+To install, clone the repository or `download and unzip
 <https://github.com/Singh-Lab/DeMaSk/archive/master.zip>`_.  To get
 Python dependencies and be able to run or import the modules from any
 directory, install with pip (or pip3 if pip = pip2)::
@@ -78,7 +74,7 @@ The output looks like this::
   ...
 
 Corresponding functions can be run in Python code by importing
-``demask.find_homologs`` and ``demask.run_demask``.
+``demask.homologs.find_homologs`` and ``demask.predict.run_demask``.
 
 User-generated matrix and coefficients
 --------------------------------------
@@ -99,4 +95,4 @@ Then, linear model coefficients were calculated::
  python3 -m demask.fit -d DeMaSk/data/datasets -a DeMaSk/data/alignments -m DeMaSk/data/matrix.txt -o DeMaSk/data/coefficients.txt
 
 Corresponding functions can be run in Python code by importing
-``demask.prepare_matrix`` and ``demask.fit_model``.
+``demask.matrix.prepare_matrix`` and ``demask.fit.fit_model``.

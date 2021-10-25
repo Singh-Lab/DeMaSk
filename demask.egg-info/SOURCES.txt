@@ -1,3 +1,4 @@
+LICENSE
 README.rst
 setup.py
 demask/__init__.py

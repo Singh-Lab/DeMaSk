@@ -20,13 +20,13 @@ sys.path.insert(0, os.path.abspath('..'))
 # -- Project information -----------------------------------------------------
 
 project = 'demask'
-copyright = '2020, Dan Munro'
-author = 'Dan Munro'
+copyright = '2021, Daniel Munro'
+author = 'Daniel Munro'
 
 # The short X.Y version
-version = ''
+version = '1.1'
 # The full version, including alpha/beta/rc tags
-release = ''
+release = '1.1'
 
 
 # -- General configuration ---------------------------------------------------

@@ -4,11 +4,7 @@ User guide
 Installation
 ------------
 
-Install from PyPI with pip (or pip3 if pip = pip2)::
-
-  pip install demask
-
-To install from GitHub, clone the repository or `download and unzip
+To install, clone the repository or `download and unzip
 <https://github.com/Singh-Lab/DeMaSk/archive/master.zip>`_.  To get
 Python dependencies and be able to run or import the modules from any
 directory, install with pip::
@@ -130,9 +126,9 @@ Running in Python
 
 Corresponding functions can be run in Python code:
 
-.. autofunction:: demask.find_homologs
+.. autofunction:: demask.homologs.find_homologs
 
-.. autofunction:: demask.run_demask
+.. autofunction:: demask.predict.run_demask
 
 User-generated matrix and coefficients
 --------------------------------------
@@ -238,9 +234,9 @@ Running in Python
 
 Corresponding functions can be run in Python code:
 
-.. autofunction:: demask.prepare_matrix
+.. autofunction:: demask.matrix.prepare_matrix
 
-.. autofunction:: demask.fit_model
+.. autofunction:: demask.fit.fit_model
 
 Full documentation
 ==================
